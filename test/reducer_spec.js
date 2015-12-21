@@ -60,8 +60,11 @@ describe('reducer', () => {
         const action = { type: 'VOTE', entry: 'Trainspotting' };
         const ret = reducer(initialState, action);
 
-        sAssert.calledWith(vote, initialState, action.entry);
-        expect(ret).to.equal('vote_result');
+        sAssert.calledWith(vote, initialState.get('vote'), action.entry);
+        expect(ret).to.equal(fromJS({
+          vote: 'vote_result',
+          entries: []
+        }));
       });
   });
 
