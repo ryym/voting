@@ -1,3 +1,5 @@
 import startServer from './src/server';
+import makeStore from './src/store';
 
-startServer();
+const store = makeStore();
+startServer(store);
