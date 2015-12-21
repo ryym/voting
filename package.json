@@ -30,5 +30,8 @@
     "plugins": [
       "rewire"
     ]
+  },
+  "dependencies": {
+    "redux": "^3.0.5"
   }
 }
