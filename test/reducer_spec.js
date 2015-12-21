@@ -19,6 +19,12 @@ describe('reducer', () => {
     }));
   });
 
+  it('returns the passed state if the action type is unknown', () => {
+    const action = { type: '___' };
+    const nextState = reducer(Map(), action);
+    expect(nextState).to.equal(Map());
+  });
+
   it('handles SET_ENTRIES', () => {
     const setEntries = sinon.stub().returns('set_entries_result');
     rewire(reducer, { setEntries })

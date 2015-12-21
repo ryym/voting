@@ -16,4 +16,5 @@ export default function reducer(state = INITIAL_STATE, action) {
         vote(voteState, action.entry)
       );
   }
+  return state;
 }
