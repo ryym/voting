@@ -1,4 +1,5 @@
 import React from 'react'; // This is required to test React components.
+import ReactDOM from 'react-dom';
 import ReactTestUtils from 'react-addons-test-utils';
 import Voting from '../../src/components/Voting';
 import { expect } from 'chai';
@@ -55,6 +56,30 @@ describe('Voting', () => {
       const buttons = scryRenderedDOMComponentsWithTag(voting, 'button');
 
       expect(buttons[0].textContent).to.contains('Voted');
+    });
+
+  });
+
+  context('when there is a winner', () => {
+
+    it('does not render vote buttons', () => {
+      const voting = renderVoting({
+        pair,
+        winner: 'Trainspotting'
+      });
+      const buttons = scryRenderedDOMComponentsWithTag(voting, 'button');
+      expect(buttons.length).to.equal(0);
+    });
+
+    it('renders the winner', () => {
+      const voting = renderVoting({
+        pair,
+        winner: 'Trainspotting'
+      });
+
+      const winner = ReactDOM.findDOMNode(voting.refs.winner);
+      expect(winner).to.be.ok;
+      expect(winner.textContent).to.contains('Trainspotting');
     });
 
   });
