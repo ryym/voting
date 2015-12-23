@@ -1,5 +1,14 @@
+const webpack = require('webpack');
+
 module.exports = {
   entry: [
+    // WebpackDevServer host and port.
+    'webpack-dev-server/client?http://localhost:8080',
+
+    // 'only' prevents reload on syntax errors.
+    'webpack/hot/only-dev-server',
+
+    // App's entry point.
     './src/index.js'
   ],
 
@@ -12,7 +21,10 @@ module.exports = {
       {
         test: /\.jsx?$/,
         exclude: /node_modules/,
-        loader: 'babel'
+        loaders: [
+          'react-hot',
+          'babel'
+        ]
       }
     ]
   },
@@ -24,6 +36,11 @@ module.exports = {
   },
 
   devServer: {
-    contentBase: './dist'
-  }
+    contentBase: './dist',
+    hot: true
+  },
+
+  plugins: [
+    new webpack.HotModuleReplacementPlugin()
+  ]
 }
