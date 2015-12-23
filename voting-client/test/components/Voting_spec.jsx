@@ -36,4 +36,26 @@ describe('Voting', () => {
     expect(votedWith).to.equal('Trainspotting');
   });
 
+  it('disables buttons when user has voted', () => {
+    const pair = ['Trainspotting', '28 Days Later'];
+    const voting = renderIntoDocument(
+      <Voting pair={pair} hasVoted={'Trainspotting'} />
+    );
+    const buttons = scryRenderedDOMComponentsWithTag(voting, 'button');
+
+    expect(
+      buttons.map(b => b.hasAttribute('disabled'))
+    ).to.eql([true, true]);
+  });
+
+  it('adds label to the voted entry', () => {
+    const pair = ['Trainspotting', '28 Days Later'];
+    const voting = renderIntoDocument(
+      <Voting pair={pair} hasVoted={'Trainspotting'} />
+    );
+    const buttons = scryRenderedDOMComponentsWithTag(voting, 'button');
+
+    expect(buttons[0].textContent).to.contains('Voted');
+  });
+
 });
