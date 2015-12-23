@@ -8,7 +8,18 @@ const Results = React.createClass({
     const pair = this.props.pair || [];
     return (
       <div className="results">
-        {pair.map(this.renderEntry)}
+        <div className="tally">
+          {pair.map(this.renderEntry)}
+        </div>
+        <div className="management">
+          <button
+            ref="next"
+            className="next"
+            onClick={this.props.next}
+            >
+            Next
+          </button>
+        </div>
       </div>
     );
   },

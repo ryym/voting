@@ -51,4 +51,13 @@ describe('Results', () => {
     );
   });
 
+  it('invokes the next callback when next button is clicked', () => {
+    let nextInvoked = false;
+    const next = () => nextInvoked = true;
+    const results = renderResults({ pair, tally, next });
+
+    Simulate.click( React.findDOMNode(results.refs.next) );
+    expect(nextInvoked).to.be.true;
+  });
+
 });
