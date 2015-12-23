@@ -60,4 +60,19 @@ describe('Results', () => {
     expect(nextInvoked).to.be.true;
   });
 
+  context('when there is a winner', () => {
+
+    it('renders the winner', () => {
+      const results = renderResults({
+        pair, tally,
+        winner: 'Trainspotting'
+      });
+
+      const winner = ReactDOM.findDOMNode(results.refs.winner);
+      expect(winner).to.be.ok;
+      expect(winner.textContent).to.contains('Trainspotting');
+    });
+
+  });
+
 });
