@@ -33,26 +33,30 @@ describe('Voting', () => {
     expect(votedWith).to.equal('Trainspotting');
   });
 
-  it('disables buttons when user has voted', () => {
-    const voting = renderVoting({
-      pair,
-      hasVoted: 'Trainspotting'
+  context('when user has voted', () => {
+
+    it('disables buttons', () => {
+      const voting = renderVoting({
+        pair,
+        hasVoted: 'Trainspotting'
+      });
+      const buttons = scryRenderedDOMComponentsWithTag(voting, 'button');
+
+      expect(
+        buttons.map(b => b.hasAttribute('disabled'))
+      ).to.eql([true, true]);
     });
-    const buttons = scryRenderedDOMComponentsWithTag(voting, 'button');
 
-    expect(
-      buttons.map(b => b.hasAttribute('disabled'))
-    ).to.eql([true, true]);
-  });
+    it('adds label to the voted entry', () => {
+      const voting = renderVoting({
+        pair,
+        hasVoted: 'Trainspotting'
+      });
+      const buttons = scryRenderedDOMComponentsWithTag(voting, 'button');
 
-  it('adds label to the voted entry', () => {
-    const voting = renderVoting({
-      pair,
-      hasVoted: 'Trainspotting'
+      expect(buttons[0].textContent).to.contains('Voted');
     });
-    const buttons = scryRenderedDOMComponentsWithTag(voting, 'button');
 
-    expect(buttons[0].textContent).to.contains('Voted');
   });
 
 });
