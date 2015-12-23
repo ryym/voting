@@ -1,6 +1,6 @@
 import React from 'react';
 
-export default class Winner extends React.Component {
+const Winner = React.createClass({
   render() {
     return (
       <div className="winner">
@@ -8,5 +8,6 @@ export default class Winner extends React.Component {
       </div>
     );
   }
-}
+});
 
+export default Winner;

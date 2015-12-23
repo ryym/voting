@@ -2,7 +2,7 @@ import React from 'react';
 import Vote from './Vote';
 import Winner from './Winner';
 
-export default class Voting extends React.Component {
+const Voting = React.createClass({
   render() {
     const pair = this.props.pair || [];
     const isDisabled = !! this.props.hasVoted;
@@ -16,4 +16,6 @@ export default class Voting extends React.Component {
       </div>
     );
   }
-}
+});
+
+export default Voting;

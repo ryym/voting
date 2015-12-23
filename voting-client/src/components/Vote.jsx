@@ -1,6 +1,6 @@
 import React from 'react';
 
-export default class Vote extends React.Component {
+const Vote = React.createClass({
   render() {
     const pair = this.props.pair || [];
     const isDisabled = !! this.props.hasVoted;
@@ -11,7 +11,7 @@ export default class Vote extends React.Component {
         )}
       </div>
     );
-  }
+  },
 
   renderButton(entry, isDisabled) {
     return (
@@ -24,16 +24,18 @@ export default class Vote extends React.Component {
         {this.renderVotedLabel(entry)}
       </button>
     );
-  }
+  },
 
   renderVotedLabel(entry) {
     return (
       this.hasVotedFor(entry) ?
         <div className="label">Voted</div> : null
     );
-  }
+  },
 
   hasVotedFor(entry) {
     return this.props.hasVoted === entry;
   }
-}
+});
+
+export default Vote;
