@@ -56,7 +56,8 @@ describe('Results', () => {
     const next = () => nextInvoked = true;
     const results = renderResults({ pair, tally, next });
 
-    Simulate.click( React.findDOMNode(results.refs.next) );
+    const nextButton = scryRenderedDOMComponentsWithClass(results, 'next')[0];
+    Simulate.click(nextButton);
     expect(nextInvoked).to.be.true;
   });
 
