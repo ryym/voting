@@ -9,7 +9,7 @@ module.exports = {
     'webpack/hot/only-dev-server',
 
     // App's entry point.
-    './src/index.js'
+    './src/index.jsx'
   ],
 
   resolve: {
