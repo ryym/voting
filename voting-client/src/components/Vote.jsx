@@ -1,6 +1,8 @@
 import React from 'react';
+import PureRenderMixin from 'react-addons-pure-render-mixin';
 
 const Vote = React.createClass({
+  mixins: [PureRenderMixin],
   render() {
     const pair = this.props.pair || [];
     const isDisabled = !! this.props.hasVoted;
