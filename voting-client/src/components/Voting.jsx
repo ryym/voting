@@ -1,5 +1,6 @@
 import React from 'react';
 import Vote from './Vote';
+import Winner from './Winner';
 
 export default class Voting extends React.Component {
   render() {
@@ -7,7 +8,11 @@ export default class Voting extends React.Component {
     const isDisabled = !! this.props.hasVoted;
     return (
       <div className="voting">
-        <Vote {...this.props} />
+        { // 'ref' for Winner is used in unit tests.
+          this.props.winner ?
+            <Winner ref="winner" winner={this.props.winner} /> :
+            <Vote {...this.props} />
+        }
       </div>
     );
   }
