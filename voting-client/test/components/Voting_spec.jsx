@@ -10,12 +10,14 @@ const {
 } = ReactTestUtils;
 
 describe('Voting', () => {
+  const pair = ['Trainspotting', '28 Days Later'];
+
+  function renderVoting(props) {
+    return renderIntoDocument(<Voting {...props} />);
+  }
 
   it('renders a pair of buttons', () => {
-    const pair = ['Trainspotting', '28 Days Later'];
-    const voting = renderIntoDocument(
-      <Voting pair={pair} />
-    );
+    const voting  = renderVoting({ pair });
     const buttons = scryRenderedDOMComponentsWithTag(voting, 'button');
 
     expect( buttons.map(b => b.textContent) ).to.eql(pair);
@@ -23,24 +25,19 @@ describe('Voting', () => {
 
   it('invokes callback when a button is clicked', () => {
     let votedWith;
-    const vote = entry => votedWith = entry;
-    const pair = ['Trainspotting', '28 Days Later'];
-
-    const voting = renderIntoDocument(
-      <Voting pair={pair} vote={vote} />
-    );
-
+    const vote    = entry => votedWith = entry;
+    const voting  = renderVoting({ pair, vote })
     const buttons = scryRenderedDOMComponentsWithTag(voting, 'button');
-    Simulate.click(buttons[0]);
 
+    Simulate.click(buttons[0]);
     expect(votedWith).to.equal('Trainspotting');
   });
 
   it('disables buttons when user has voted', () => {
-    const pair = ['Trainspotting', '28 Days Later'];
-    const voting = renderIntoDocument(
-      <Voting pair={pair} hasVoted={'Trainspotting'} />
-    );
+    const voting = renderVoting({
+      pair,
+      hasVoted: 'Trainspotting'
+    });
     const buttons = scryRenderedDOMComponentsWithTag(voting, 'button');
 
     expect(
@@ -49,10 +46,10 @@ describe('Voting', () => {
   });
 
   it('adds label to the voted entry', () => {
-    const pair = ['Trainspotting', '28 Days Later'];
-    const voting = renderIntoDocument(
-      <Voting pair={pair} hasVoted={'Trainspotting'} />
-    );
+    const voting = renderVoting({
+      pair,
+      hasVoted: 'Trainspotting'
+    });
     const buttons = scryRenderedDOMComponentsWithTag(voting, 'button');
 
     expect(buttons[0].textContent).to.contains('Voted');
