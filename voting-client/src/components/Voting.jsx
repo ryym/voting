@@ -1,4 +1,5 @@
 import React from 'react';
+import Vote from './Vote';
 
 export default class Voting extends React.Component {
   render() {
@@ -6,34 +7,8 @@ export default class Voting extends React.Component {
     const isDisabled = !! this.props.hasVoted;
     return (
       <div className="voting">
-        {pair.map(entry =>
-          this.renderButton(entry, isDisabled)
-        )}
+        <Vote {...this.props} />
       </div>
-    )
-  }
-
-  renderButton(entry, isDisabled) {
-    return (
-     <button
-       key={entry}
-       disabled={isDisabled}
-       onClick={() => this.props.vote(entry)}
-      >
-        <h1>{entry}</h1>
-        {this.renderVotedLabel(entry)}
-      </button>
     );
-  }
-
-  renderVotedLabel(entry) {
-    return (
-      this.hasVotedFor(entry) ?
-        <div className="label">Voted</div> : null
-    );
-  }
-
-  hasVotedFor(entry) {
-    return this.props.hasVoted === entry;
   }
 }
