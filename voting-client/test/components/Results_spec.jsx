@@ -1,7 +1,7 @@
 import React from 'react'; // This is required to test React components.
 import ReactDOM from 'react-dom';
 import ReactTestUtils from 'react-addons-test-utils';
-import Results from '../../src/components/Results';
+import { Results } from '../../src/components/Results';
 import { expect } from 'chai';
 import { List, Map } from 'immutable';
 
