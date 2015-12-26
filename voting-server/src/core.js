@@ -15,11 +15,15 @@ export function next(state) {
     return state
       .remove('vote')
       .remove('entries')
+      .remove('roundId')
       .set('winner', entries.first());
   }
+
+  const roundId = state.get('roundId', 0);
   return state.merge({
     vote: Map({ pair: entries.take(2) }),
-    entries: entries.skip(2)
+    entries: entries.skip(2),
+    roundId: roundId + 1
   });
 }
 function getWinners(vote) {
