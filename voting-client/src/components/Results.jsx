@@ -1,6 +1,7 @@
 import React from 'react';
 import PureRenderMixin from 'react-addons-pure-render-mixin';
 import { connect } from 'react-redux';
+import { next } from '../action_creators';
 import Entry from './Entry';
 import Entries from './Entries';
 import Winner from './Winner';
@@ -30,4 +31,7 @@ export const Results = React.createClass({
   }
 });
 
-export const ResultsContainer = connect(mapStateToProps)(Results);
+export const ResultsContainer = connect(
+  mapStateToProps,
+  { next }
+)(Results);
