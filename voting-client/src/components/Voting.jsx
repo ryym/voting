@@ -13,12 +13,6 @@ function mapStateToProps(state) {
   }
 }
 
-function mapDispatchToProps(dispatch) {
-    return {
-      vote: entry => dispatch( vote(entry) )
-    }
-}
-
 export const Voting = React.createClass({
   mixins: [PureRenderMixin],
   render() {
@@ -38,5 +32,5 @@ export const Voting = React.createClass({
 
 export const VotingContainer = connect(
   mapStateToProps,
-  mapDispatchToProps
+  { vote }
 )(Voting);
