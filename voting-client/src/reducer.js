@@ -1,7 +1,11 @@
 import { List, Map } from 'immutable';
 
 function setState(state, action) {
-  return state.merge(action.state);
+  const nextState = state.merge(action.state);
+  if(isNewRound(state, nextState)) {
+    return nextState.remove('hasVoted');
+  }
+  return nextState;
 }
 
 function vote(state, entry) {
@@ -12,19 +16,16 @@ function vote(state, entry) {
   return state;
 }
 
-function resetVote(state) {
-  const hasVoted = state.get('hasVoted');
-  const pair = state.getIn(['vote', 'pair'], List());
-  if (pair && ! pair.includes(hasVoted)) {
-    return state.remove('hasVoted');
-  }
-  return state;
+function isNewRound(current, next) {
+  const currentRound = current.get('roundId');
+  const nextRound    = next.get('roundId');
+  return currentRound !== nextRound;
 }
 
 export default function reducer(state = Map(), action) {
   switch(action.type) {
     case 'SET_STATE':
-      return resetVote( setState(state, action) );
+      return setState(state, action);
     case 'VOTE':
       return vote(state, action.entry);
   }

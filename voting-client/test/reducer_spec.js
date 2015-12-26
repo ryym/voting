@@ -68,29 +68,60 @@ describe('reducer', () => {
       }));
     });
 
-    it('removes hasVoted if pair changes', () => {
-      const initialState = fromJS({
-        vote: {
-          pair: ['Trainspotting', '28 Days Later'],
-          tally: { 'Trainspotting': 1 }
-        },
-        hasVoted: 'Trainspotting'
-      });
-      const action = {
-        type: 'SET_STATE',
-        state: {
+    context('when round changes', () => {
+
+      it('removes hasVoted', () => {
+        const initialState = fromJS({
+          vote: {
+            pair: ['Trainspotting', '28 Days Later'],
+            tally: { 'Trainspotting': 1 }
+          },
+          hasVoted: 'Trainspotting',
+          roundId: 1
+        });
+        const action = {
+          type: 'SET_STATE',
+          state: {
+            vote: { pair: ['Sunshine', 'Slumdog Millionaire'] },
+            roundId: 2
+          }
+        };
+        const nextState = reducer(initialState, action);
+
+        expect(nextState).to.equal(fromJS({
           vote: {
             pair: ['Sunshine', 'Slumdog Millionaire']
-          }
-        }
-      };
-      const nextState = reducer(initialState, action);
+          },
+          roundId: 2
+        }));
+      });
 
-      expect(nextState).to.equal(fromJS({
-        vote: {
-          pair: ['Sunshine', 'Slumdog Millionaire']
-        }
-      }));
+      it('removes hasVoted even if same entry is in next pair', () => {
+        const initialState = fromJS({
+          vote: {
+            pair: ['Trainspotting', '28 Days Later'],
+            tally: { 'Trainspotting': 1 }
+          },
+          hasVoted: 'Trainspotting',
+          roundId: 1
+        });
+        const action = {
+          type: 'SET_STATE',
+          state: {
+            vote: { pair: ['Trainspotting', 'Sunshine'] },
+            roundId: 2
+          }
+        };
+        const nextState = reducer(initialState, action);
+
+        expect(nextState).to.equal(fromJS({
+          vote: {
+            pair: ['Trainspotting', 'Sunshine']
+          },
+          roundId: 2
+        }));
+      });
+
     });
 
   });
