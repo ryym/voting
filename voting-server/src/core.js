@@ -34,8 +34,12 @@ function getWinners(vote) {
 }
 
 export function vote(state, entry) {
-  return state.updateIn(
-    ['tally', entry], 0,
-    tally => tally + 1
-  );
+  const pair = state.get('pair');
+  if (pair && pair.includes(entry)) {
+    return state.updateIn(
+      ['tally', entry], 0,
+      tally => tally + 1
+    );
+  }
+  return state;
 }
