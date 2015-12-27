@@ -17,7 +17,6 @@ export const Voting = React.createClass({
   mixins: [PureRenderMixin],
   render() {
     const pair = this.props.pair || [];
-    const isDisabled = !! this.props.hasVoted;
     return (
       <div className="voting">
         { // 'ref' for Winner is used in unit tests.

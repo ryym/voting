@@ -5,21 +5,19 @@ const Vote = React.createClass({
   mixins: [PureRenderMixin],
   render() {
     const pair = this.props.pair || [];
-    const isDisabled = !! this.props.hasVoted;
     return (
       <div>
         {pair.map(entry =>
-          this.renderButton(entry, isDisabled)
+          this.renderButton(entry)
         )}
       </div>
     );
   },
 
-  renderButton(entry, isDisabled) {
+  renderButton(entry) {
     return (
      <button
        key={entry}
-       disabled={isDisabled}
        onClick={() => this.props.vote(entry)}
       >
         <h1>{entry}</h1>
