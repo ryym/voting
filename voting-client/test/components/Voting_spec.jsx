@@ -36,18 +36,6 @@ describe('Voting', () => {
 
   context('when user has voted', () => {
 
-    it('disables buttons', () => {
-      const voting = renderVoting({
-        pair,
-        hasVoted: 'Trainspotting'
-      });
-      const buttons = scryRenderedDOMComponentsWithTag(voting, 'button');
-
-      expect(
-        buttons.map(b => b.hasAttribute('disabled'))
-      ).to.eql([true, true]);
-    });
-
     it('adds label to the voted entry', () => {
       const voting = renderVoting({
         pair,

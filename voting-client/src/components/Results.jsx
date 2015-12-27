@@ -9,7 +9,7 @@ import Winner from './Winner';
 function mapStateToProps(state) {
   return {
     pair: state.getIn(['vote', 'pair']),
-    tally: state.getIn(['vote', 'tally']),
+    votes: state.getIn(['vote', 'votes']),
     winner: state.get('winner')
   };
 }

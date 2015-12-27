@@ -5,6 +5,13 @@ export function setState(state) {
   };
 }
 
+export function setClientId(clientId) {
+  return {
+    type: 'SET_CLIENT_ID',
+    clientId
+  };
+}
+
 export function vote(entry) {
   return {
     meta: { remote: true },
