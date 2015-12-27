@@ -1,12 +1,13 @@
 import React from 'react';
 import PureRenderMixin from 'react-addons-pure-render-mixin';
+import { Set } from 'immutable';
 import Entry from './Entry';
 
 const Entries = React.createClass({
   mixins: [PureRenderMixin],
 
   render() {
-    const { pair, tally, next } = this.props;
+    const { pair, votes, next } = this.props;
     return (
       <div>
         <div className="tally">
@@ -14,7 +15,7 @@ const Entries = React.createClass({
             <Entry
               key={entry}
               entry={entry}
-              voteCount={tally.get(entry)}
+              voteCount={votes.get(entry, Set()).size}
             />
           )}
         </div>

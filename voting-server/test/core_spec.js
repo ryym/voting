@@ -1,4 +1,4 @@
-import { List, Map, fromJS } from 'immutable';
+import { List, Map, Set, fromJS } from 'immutable';
 import { expect }    from 'chai';
 import { setEntries, next, vote } from '../src/core';
 
@@ -49,9 +49,9 @@ describe('Application logic', () => {
       const state = fromJS({
         vote: {
           pair: ['Trainspotting', '28 Days Later'],
-          tally: {
-            'Trainspotting': 4,
-            '28 Days Later': 2
+          votes: {
+            'Trainspotting': Set.of('v1', 'v2'),
+            '28 Days Later': Set.of('v3')
           }
         },
         entries: ['Sunshine', 'Millions', '127 Hours']
@@ -73,9 +73,9 @@ describe('Application logic', () => {
       const state = fromJS({
         vote: {
           pair: ['Trainspotting', '28 Days Later'],
-          tally: {
-            'Trainspotting': 3,
-            '28 Days Later': 3
+          votes: {
+            'Trainspotting': Set.of('v1', 'v2'),
+            '28 Days Later': Set.of('v3', 'v4'),
           }
         },
         entries: ['Sunshine', 'Millions', '127 Hours']
@@ -97,9 +97,9 @@ describe('Application logic', () => {
       const state = fromJS({
         vote: {
           pair: ['Trainspotting', '28 Days Later'],
-          tally: {
-            'Trainspotting': 4,
-            '28 Days Later': 2
+          votes: {
+            'Trainspotting': Set.of('v1', 'v2'),
+            '28 Days Later': Set.of('v3')
           }
         },
         entries: List()
@@ -115,7 +115,10 @@ describe('Application logic', () => {
       const state = fromJS({
         vote: {
           pair: ['Trainspotting', '28 Days Later'],
-          tally: { 'Trainspotting': 1, '28 Days Later': 1 }
+          votes: {
+            'Trainspotting': Set.of('v1'),
+            '28 Days Later': Set.of('v2')
+          }
         },
         entries: List('Sunshine'),
         roundId: 1
@@ -131,39 +134,40 @@ describe('Application logic', () => {
   });
 
   describe('vote', () => {
-    
-    it('creates a tally for the voted entry', () => {
+
+    it('tracks voters for each entry', () => {
+      const voter = 'voter-1';
       const state = fromJS({
         pair: ['Trainspotting', '28 Days Later']
       });
-      const nextState = vote(state, 'Trainspotting');
+      const nextState = vote(state, 'Trainspotting', voter);
       
       expect(nextState).to.equal(
         fromJS({
           pair: ['Trainspotting', '28 Days Later'],
-          tally: {
-            'Trainspotting': 1
+          votes: {
+            'Trainspotting': Set.of(voter)
           }
         })
       );
     });
 
-    it('add to existing tally for the voted entry', () => {
+    it('add to existing votes for the voted entry', () => {
       const state = fromJS({
         pair: ['Trainspotting', '28 Days Later'],
-        tally: {
-          'Trainspotting': 3,
-          '28 Days Later': 2
+        votes: {
+          'Trainspotting': Set.of('v1', 'v2'),
+          '28 Days Later': Set()
         }
       });
-      const nextState = vote(state, 'Trainspotting');
+      const nextState = vote(state, 'Trainspotting', 'v3');
 
       expect(nextState).to.equal(
         fromJS({
           pair: ['Trainspotting', '28 Days Later'],
-          tally: {
-            'Trainspotting': 4,
-            '28 Days Later': 2
+          votes: {
+            'Trainspotting': Set.of('v1', 'v2', 'v3'),
+            '28 Days Later': Set()
           }
         })
       );
