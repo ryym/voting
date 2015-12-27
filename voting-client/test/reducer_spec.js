@@ -127,6 +127,24 @@ describe('reducer', () => {
 
   });
 
+  describe('SET_CLIENT_ID', () => {
+
+    it('sets a client id', () => {
+      const state = fromJS({
+        pair: ['Trainspotting', '28 Days Later']
+      });
+      const clientId = '12345-client-id';
+      const action = { type: 'SET_CLIENT_ID', clientId };
+
+      const nextState = reducer(state, action);
+      expect(nextState).to.equal(fromJS({
+        pair: ['Trainspotting', '28 Days Later'],
+        clientId
+      }));
+    });
+
+  });
+
   describe('VOTE', () => {
 
     it('sets a voted entry', () => {

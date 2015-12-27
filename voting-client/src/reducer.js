@@ -8,6 +8,10 @@ function setState(state, action) {
   return nextState;
 }
 
+function setClientId(state, clientId) {
+  return state.set('clientId', clientId);
+}
+
 function vote(state, entry) {
   const pair = state.getIn(['vote', 'pair']);
   if (pair && pair.includes(entry)) {
@@ -26,6 +30,8 @@ export default function reducer(state = Map(), action) {
   switch(action.type) {
     case 'SET_STATE':
       return setState(state, action);
+    case 'SET_CLIENT_ID':
+      return setClientId(state, action.clientId);
     case 'VOTE':
       return vote(state, action.entry);
   }
