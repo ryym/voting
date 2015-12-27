@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom';
 import ReactTestUtils from 'react-addons-test-utils';
 import { Results } from '../../src/components/Results';
 import { expect } from 'chai';
-import { List, Map } from 'immutable';
+import { List, Map, Set } from 'immutable';
 
 const {
   renderIntoDocument,
@@ -14,9 +14,9 @@ const {
 describe('Results', () => {
   const pair = List.of('Trainspotting', '28 Days Later');
 
-  const tally = Map({
-    'Trainspotting': 5,
-    '28 Days Later': 4
+  const votes = Map({
+    'Trainspotting': Set.of('v1', 'v2', 'v3'),
+    '28 Days Later': Set.of('v4', 'v5')
   });
 
   function renderResults(props) {
@@ -24,7 +24,7 @@ describe('Results', () => {
   }
 
   it('renders entries', () => {
-    const results = renderResults({ pair, tally });
+    const results = renderResults({ pair, votes });
     const entries = scryRenderedDOMComponentsWithClass(results, 'entry-name');
     expect(
       entries.map(e => e.textContent)
@@ -32,29 +32,31 @@ describe('Results', () => {
   });
 
   it('renders vote counts', () => {
-    const results    = renderResults({ pair, tally });
-    const voteCounts = scryRenderedDOMComponentsWithClass(results, 'vote-count');
+    const results    = renderResults({ pair, votes });
+    const renderedCounts = scryRenderedDOMComponentsWithClass(results, 'vote-count');
+    const voteCounts = Array.from(votes.values()).map(v => v.size);
     expect(
-      voteCounts.map(v => parseInt(v.textContent, 10))
-    ).to.eql( Array.from(tally.values()) );
+      renderedCounts.map(v => parseInt(v.textContent, 10))
+    ).to.eql(voteCounts);
   });
 
   it('renders zero as a vote count if not set', () => {
     const results = renderResults({
-      pair, tally: tally.remove('28 Days Later')
+      pair,
+      votes: votes.remove('28 Days Later')
     });
     const voteCounts = scryRenderedDOMComponentsWithClass(results, 'vote-count');
     expect(
       voteCounts.map(v => parseInt(v.textContent, 10))
     ).to.eql(
-      [ tally.get('Trainspotting'), 0 ]
+      [ votes.get('Trainspotting').size, 0 ]
     );
   });
 
   it('invokes the next callback when next button is clicked', () => {
     let nextInvoked = false;
     const next = () => nextInvoked = true;
-    const results = renderResults({ pair, tally, next });
+    const results = renderResults({ pair, votes, next });
 
     const nextButton = scryRenderedDOMComponentsWithClass(results, 'next')[0];
     Simulate.click(nextButton);
@@ -65,7 +67,7 @@ describe('Results', () => {
 
     it('renders the winner', () => {
       const results = renderResults({
-        pair, tally,
+        pair, votes,
         winner: 'Trainspotting'
       });
 
