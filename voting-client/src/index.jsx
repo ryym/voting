@@ -5,7 +5,8 @@ import { createStore, applyMiddleware } from 'redux';
 import { Provider } from 'react-redux';
 import io from 'socket.io-client';
 import reducer from './reducer';
-import { setState } from './action_creators';
+import getClientId from './client_id';
+import { setClientId, setState } from './action_creators';
 import remoteActionMiddleWare from './remote_action_middleware';
 import App from './components/App';
 import { ResultsContainer } from './components/Results';
@@ -16,9 +17,13 @@ socket.on('state', state => {
   store.dispatch( setState(state) );
 });
 
+const clientId = getClientId(sessionStorage)();
+
 const store = applyMiddleware(
   remoteActionMiddleWare(socket)
 )(createStore)(reducer);
+
+store.dispatch( setClientId(clientId) );
 
 const routes = (
   <Route component={App}>
