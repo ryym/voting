@@ -5,7 +5,7 @@ import remoteActionMiddleware from '../src/remote_action_middleware';
 describe('remoteActionMiddleware', () => {
   const defaultArgs = {
     socket: { emit() {} },
-    store: Map(),
+    store: { getState: () => Map() },
     next() {},
     action: { type: '' }
   }
@@ -34,7 +34,23 @@ describe('remoteActionMiddleware', () => {
       const action = { type: 'FOO', meta: { remote: true } }
 
       apply({ socket, next, action });
-      expect(emitted).to.eql(['action', action]);
+      expect(emitted[1].type).to.equal('FOO');
+    });
+
+    it('sends client id as a parameter of action', () => {
+      let emitted;
+
+      const clientId = 'client-123';
+      const socket = {
+        emit(...args) { emitted = args }
+      }
+      const store = {
+        getState() { return Map({ clientId }) }
+      }
+      const action = { type: 'FOO', meta: { remote: true } }
+
+      apply({ socket, store, action });
+      expect(emitted[1].clientId).to.equal(clientId);
     });
 
   });
