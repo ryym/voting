@@ -45,7 +45,7 @@ describe('Application logic', () => {
       }));
     });
 
-    it('putsh winner of current vote back to entries', () => {
+    it('puts winner of current vote back to entries', () => {
       const state = fromJS({
         vote: {
           pair: ['Trainspotting', '28 Days Later'],
