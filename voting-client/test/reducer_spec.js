@@ -1,8 +1,9 @@
-import { List, Map, fromJS } from 'immutable';
+import { List, Map, Set, fromJS } from 'immutable';
 import { expect } from 'chai';
 import reducer from '../src/reducer';
 
 describe('reducer', () => {
+  const clientId = 'test-client';
   
   describe('SET_STATE', () => {
 
@@ -13,7 +14,7 @@ describe('reducer', () => {
         state: Map({
           vote: Map({
             pair: List.of('Trainspotting', '28 Days Later'),
-            tally: Map({ 'Trainspotting': 1 })
+            votes: Map({ 'Trainspotting': Set.of(clientId) })
           })
         })
       };
@@ -22,7 +23,7 @@ describe('reducer', () => {
       expect(nextState).to.equal(fromJS({
         vote: {
           pair: ['Trainspotting', '28 Days Later'],
-          tally: { 'Trainspotting': 1 }
+            votes: Map({ 'Trainspotting': Set.of(clientId) })
         }
       }));
     });
@@ -34,7 +35,7 @@ describe('reducer', () => {
         state: {
           vote: {
             pair: ['Trainspotting', '28 Days Later'],
-            tally: { 'Trainspotting': 1 }
+            votes: { 'Trainspotting': Set.of(clientId) }
           }
         }
       };
@@ -43,7 +44,7 @@ describe('reducer', () => {
       expect(nextState).to.equal(fromJS({
         vote: {
           pair: [ 'Trainspotting', '28 Days Later' ],
-          tally: { 'Trainspotting': 1 }
+          votes: { 'Trainspotting': Set.of(clientId) }
         }
       }));
     });
@@ -54,7 +55,7 @@ describe('reducer', () => {
         state: {
           vote: {
             pair: ['Trainspotting', '28 Days Later'],
-            tally: { 'Trainspotting': 1 }
+            votes: { 'Trainspotting': Set.of(clientId) }
           }
         }
       };
@@ -63,7 +64,7 @@ describe('reducer', () => {
       expect(nextState).to.equal(fromJS({
         vote: {
           pair: ['Trainspotting', '28 Days Later'],
-          tally: { 'Trainspotting': 1 }
+          votes: { 'Trainspotting': Set.of(clientId) }
         }
       }));
     });
@@ -74,7 +75,7 @@ describe('reducer', () => {
         const initialState = fromJS({
           vote: {
             pair: ['Trainspotting', '28 Days Later'],
-            tally: { 'Trainspotting': 1 }
+            votes: { 'Trainspotting': Set.of(clientId) }
           },
           hasVoted: 'Trainspotting',
           roundId: 1
@@ -100,7 +101,7 @@ describe('reducer', () => {
         const initialState = fromJS({
           vote: {
             pair: ['Trainspotting', '28 Days Later'],
-            tally: { 'Trainspotting': 1 }
+            votes: { 'Trainspotting': Set.of(clientId) }
           },
           hasVoted: 'Trainspotting',
           roundId: 1
@@ -132,7 +133,7 @@ describe('reducer', () => {
       const state = fromJS({
         vote: {
           pair: ['Trainspotting', '28 Days Later'],
-          tally: { Trainspotting: 1 }
+          votes: { Trainspotting: Set.of(clientId) }
         }
       });
       const action = { type: 'VOTE', entry: 'Trainspotting' };
@@ -141,7 +142,7 @@ describe('reducer', () => {
       expect(nextState).to.equal(fromJS({
         vote: {
           pair: ['Trainspotting', '28 Days Later'],
-          tally: { Trainspotting: 1 }
+          votes: { Trainspotting: Set.of(clientId) }
         },
         hasVoted: 'Trainspotting'
       }));
@@ -151,7 +152,7 @@ describe('reducer', () => {
       const state = fromJS({
         vote: {
           pair: ['Trainspotting', '28 Days Later'],
-          tally: { Trainspotting: 1 }
+          votes: { Trainspotting: Set.of(clientId) }
         }
       });
       const action = { type: 'VOTE', entry: 'Unknown title' };
@@ -160,7 +161,7 @@ describe('reducer', () => {
       expect(nextState).to.equal(fromJS({
         vote: {
           pair: ['Trainspotting', '28 Days Later'],
-          tally: { Trainspotting: 1 }
+          votes: { Trainspotting: Set.of(clientId) }
         }
       }));
     });
