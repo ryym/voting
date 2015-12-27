@@ -2,8 +2,11 @@ import { List, Map } from 'immutable';
 
 function setState(state, action) {
   const nextState = state.merge(action.state);
-  if(isNewRound(state, nextState)) {
-    return nextState.remove('hasVoted');
+  if (isSameRound(state, nextState)) {
+    const entry = findVotedEntry(nextState);
+    if (entry) {
+      return nextState.set('hasVoted', entry);
+    }
   }
   return nextState;
 }
@@ -12,18 +15,23 @@ function setClientId(state, clientId) {
   return state.set('clientId', clientId);
 }
 
-function vote(state, entry) {
-  const pair = state.getIn(['vote', 'pair']);
-  if (pair && pair.includes(entry)) {
-    return state.set('hasVoted', entry);
-  }
-  return state;
-}
-
-function isNewRound(current, next) {
+function isSameRound(current, next) {
   const currentRound = current.get('roundId');
   const nextRound    = next.get('roundId');
-  return currentRound !== nextRound;
+  return currentRound === undefined || currentRound === nextRound;
+}
+
+function findVotedEntry(state) {
+  const clientId = state.get('clientId');
+  if (! clientId) {
+    return;
+  }
+  const votes = state.getIn(['vote', 'votes'], Map());
+  for (let [entry, voters] of votes.entries()) {
+    if (voters.includes(clientId)) {
+      return entry;
+    }
+  }
 }
 
 export default function reducer(state = Map(), action) {
@@ -32,8 +40,6 @@ export default function reducer(state = Map(), action) {
       return setState(state, action);
     case 'SET_CLIENT_ID':
       return setClientId(state, action.clientId);
-    case 'VOTE':
-      return vote(state, action.entry);
   }
   return state;
 }
