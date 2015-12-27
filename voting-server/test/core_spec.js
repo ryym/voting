@@ -38,7 +38,8 @@ describe('Application logic', () => {
         vote: Map({
           pair: List.of('Trainspotting', '28 Days Later')
         }),
-        entries: List.of('Sunshine')
+        entries: List.of('Sunshine'),
+        roundId: 1
       }));
     });
 
@@ -60,7 +61,8 @@ describe('Application logic', () => {
           vote: Map({
             pair: List.of('Sunshine', 'Millions')
           }),
-          entries: List.of('127 Hours', 'Trainspotting')
+          entries: List.of('127 Hours', 'Trainspotting'),
+          roundId: 1
         })
       );
     });
@@ -83,7 +85,8 @@ describe('Application logic', () => {
           vote: Map({
             pair: List.of('Sunshine', 'Millions')
           }),
-          entries: List.of('127 Hours', 'Trainspotting', '28 Days Later')
+          entries: List.of('127 Hours', 'Trainspotting', '28 Days Later'),
+          roundId: 1
         })
       );
     });
@@ -104,6 +107,23 @@ describe('Application logic', () => {
       expect(nextState).to.equal(Map({
         winner: 'Trainspotting'
       }));
+    });
+
+    it('increments round id', () => {
+      const state = Map({
+        vote: Map({
+          pair: List.of('Trainspotting', '28 Days Later'),
+          tally: { 'Trainspotting': 1, '28 Days Later': 1 }
+        }),
+        entries: List('Sunshine'),
+        roundId: 1
+      });
+
+      const secondState = next(state);
+      expect(secondState.get('roundId')).to.equal(2);
+
+      const thirdState = next(secondState);
+      expect(thirdState.get('roundId')).to.equal(3);
     });
 
   });
