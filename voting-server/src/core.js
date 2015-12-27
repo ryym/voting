@@ -40,10 +40,25 @@ function getWinners(vote) {
 export function vote(state, entry, voter) {
   const pair = state.get('pair');
   if (pair && pair.includes(entry)) {
-    return state.updateIn(
-      ['votes', entry], Set(),
-      voters => voters.add(voter)
+    return state.update(
+      'votes', Map(),
+      votes => {
+        votes = removePrevVote(votes, voter);
+        return votes.update(entry, Set(), voters => voters.add(voter));
+      }
     );
   }
   return state;
+}
+
+function removePrevVote(votes, voter) {
+  for (let [entry, voters] of votes.entries()) {
+    if (voters.has(voter)) {
+      return votes.update(
+        entry,
+        voters => voters.remove(voter)
+      );
+    }
+  }
+  return votes;
 }

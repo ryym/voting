@@ -182,6 +182,52 @@ describe('Application logic', () => {
       expect(nextState).to.equal(state);
     });
 
+    context('when a client votes again', () => {
+
+      it('does nothing if a client votes on the same entry', () => {
+        const state = fromJS({
+          pair: ['Trainspotting', '28 Days Later'],
+          votes: {
+            'Trainspotting': Set.of('v1', 'v2'),
+            '28 Days Later': Set()
+          }
+        });
+        const nextState = vote(state, 'Trainspotting', 'v1');
+
+        expect(nextState).to.equal(
+          fromJS({
+            pair: ['Trainspotting', '28 Days Later'],
+            votes: {
+              'Trainspotting': Set.of('v1', 'v2'),
+              '28 Days Later': Set()
+            }
+          })
+        );
+      });
+
+      it('moves voter from previous entry to the new one', () => {
+        const state = fromJS({
+          pair: ['Trainspotting', '28 Days Later'],
+          votes: {
+            'Trainspotting': Set.of('v1', 'v2'),
+            '28 Days Later': Set()
+          }
+        });
+        const nextState = vote(state, '28 Days Later', 'v1');
+
+        expect(nextState).to.equal(
+          fromJS({
+            pair: ['Trainspotting', '28 Days Later'],
+            votes: {
+              'Trainspotting': Set.of('v2'),
+              '28 Days Later': Set.of('v1')
+            }
+          })
+        );
+      });
+
+    });
+
   });
 
 });
