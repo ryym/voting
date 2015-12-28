@@ -24,6 +24,7 @@ const Entries = React.createClass({
           )}
         </div>
         <div className="management">
+          <a href="/#/">Vote</a>
           <button className="next" onClick={next}>
             Next
           </button>

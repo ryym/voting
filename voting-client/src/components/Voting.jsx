@@ -24,6 +24,9 @@ export const Voting = React.createClass({
             <Winner ref="winner" winner={this.props.winner} /> :
             <Vote {...this.props} />
         }
+        <div className="to-result">
+          <a href="/#/results">Current Result</a>
+        </div>
       </div>
     );
   }
