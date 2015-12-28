@@ -8,18 +8,23 @@ const Entries = React.createClass({
 
   render() {
     const { pair, votes, next } = this.props;
+    const allVotes = Array.from(votes.values()).reduce((all, v) => {
+      return all + v.size;
+    }, 0);
     return (
-      <div>
+      <div className="entries">
         <div className="tally">
           {pair.map(entry =>
             <Entry
               key={entry}
               entry={entry}
+              allVoteCount={allVotes}
               voteCount={votes.get(entry, Set()).size}
             />
           )}
         </div>
         <div className="management">
+          <a href="/#/">Vote</a>
           <button className="next" onClick={next}>
             Next
           </button>

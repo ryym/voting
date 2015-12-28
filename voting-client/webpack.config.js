@@ -25,6 +25,17 @@ module.exports = {
           'react-hot',
           'babel'
         ]
+      },
+      {
+        test: /\.scss$/,
+        exclude: /node_modules/,
+        // loader: 'style!css!autoprefixer?browsers=last 2 versions'
+        loaders: [
+          'style',
+          'css',
+          'autoprefixer?browsers=last 2 versions',
+          'sass'
+        ]
       }
     ]
   },
