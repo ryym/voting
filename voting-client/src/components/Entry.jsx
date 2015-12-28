@@ -5,14 +5,15 @@ const Entry = React.createClass({
   mixins: [PureRenderMixin],
 
   render() {
-    const { entry, voteCount } = this.props;
+    const { entry, allVoteCount, voteCount } = this.props;
+    const votePercentage = (voteCount / allVoteCount) * 100;
     return (
       <div className="entry">
         <h1 className="entry-name">
           {entry}
         </h1>
         <div className="vote-visualization">
-          <div className="votes-block"></div>
+          <div className="votes-block" style={{width: `${votePercentage}%`}}></div>
         </div>
         <div className="vote-count">
           {voteCount || 0}
