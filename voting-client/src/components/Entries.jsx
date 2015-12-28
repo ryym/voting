@@ -9,7 +9,7 @@ const Entries = React.createClass({
   render() {
     const { pair, votes, next } = this.props;
     return (
-      <div>
+      <div className="entries">
         <div className="tally">
           {pair.map(entry =>
             <Entry

@@ -11,6 +11,9 @@ const Entry = React.createClass({
         <h1 className="entry-name">
           {entry}
         </h1>
+        <div className="vote-visualization">
+          <div className="votes-block"></div>
+        </div>
         <div className="vote-count">
           {voteCount || 0}
         </div>
