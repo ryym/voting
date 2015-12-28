@@ -15,6 +15,9 @@ import { VotingContainer } from './components/Voting';
 require('./style.scss');
 
 const socket = io(`${location.protocol}//${location.hostname}:8090`);
+
+// Note: This just subscribes events emitted from the server.
+// So the views might be rendered before we recieves a first state.
 socket.on('state', state => {
   store.dispatch( setState(state) );
 });

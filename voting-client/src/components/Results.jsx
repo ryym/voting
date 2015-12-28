@@ -1,6 +1,7 @@
 import React from 'react';
 import PureRenderMixin from 'react-addons-pure-render-mixin';
 import { connect } from 'react-redux';
+import { List, Map } from 'immutable';
 import { next } from '../action_creators';
 import Entry from './Entry';
 import Entries from './Entries';
@@ -8,8 +9,8 @@ import Winner from './Winner';
 
 function mapStateToProps(state) {
   return {
-    pair: state.getIn(['vote', 'pair']),
-    votes: state.getIn(['vote', 'votes']),
+    pair: state.getIn(['vote', 'pair'], List()),
+    votes: state.getIn(['vote', 'votes'], Map()),
     winner: state.get('winner')
   };
 }
