@@ -2,7 +2,7 @@
 
 import { Map, fromJS } from 'immutable';
 import { expect } from 'chai';
-import rewire from '../lib/auto-rewire';
+import rewire from 'babel-rewire-wrapper';
 import sinon from 'sinon';
 
 import reducer from '../src/reducer';
@@ -27,7 +27,8 @@ describe('reducer', () => {
 
   it('handles SET_ENTRIES', () => {
     const setEntries = sinon.stub().returns('set_entries_result');
-    rewire(reducer, { setEntries })
+    rewire()
+      .use(reducer, { setEntries })
       .run(() => {
         const initialState = Map();
         const action = { type: 'SET_ENTRIES', entries: ['Trainspotting'] };
@@ -40,7 +41,8 @@ describe('reducer', () => {
 
   it('handles NEXT', () => {
     const next = sinon.stub().returns('next_result');
-    rewire(reducer, { next })
+    rewire()
+      .use(reducer, { next })
       .run(() => {
         const initialState = fromJS({
           entries: ['Trainspotting', '28 Days Later']
@@ -55,7 +57,8 @@ describe('reducer', () => {
 
   it('handles VOTE', () => {
     const vote = sinon.stub().returns('vote_result');
-    rewire(reducer, { vote })
+    rewire()
+      .use(reducer, { vote })
       .run(() => {
         const initialState = fromJS({
           vote: {
